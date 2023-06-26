@@ -12,8 +12,7 @@ jobs:
 
       - uses: actions/setup-node@v3.1.1
         with:
-          node-version: v3.1.1
-
+          node-version: v16.6.1
       - run: yarn install
 
       ### Run test/lint etc.
