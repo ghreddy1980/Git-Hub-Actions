@@ -1,0 +1,42 @@
+nmae: Terraform-apply-infra-release
+on:
+  push:
+    branches:
+      - main
+jobs:
+   terraform:
+     name: "Terraform"
+     runs-on: ubuntu-latest
+   env:
+     AWS_ACCESS_KEY_ID: {{ secrets.TF_AWS_ACCESS_KEY }}
+     AWS_SECRET_ACCESS_KEY: {{ secrets.TF_AWS_SECRET_ACCESS_KEY }}
+     AWS_REGION: "us-east-1"
+   steps:
+     - name: checkout
+       uses: actions/checkout@v2
+
+     - name: setup terraform
+       uses: hasicorp/setup-terraform@v1
+
+     - name: terraform init
+       id: init
+       run: terraform init
+
+     - name: terraform plan
+       id: plan
+       if: github.event_name == 'push'
+       run: terraform plan -no-color
+       continue-on-error: true
+
+     - name: terrform Terraform-apply
+       if: github.ref == 'refs/head/main' && github.event_name == 'push'
+       run: terraform apply -auto-approve
+       i
+    
+      
+
+    
+
+    
+
+
